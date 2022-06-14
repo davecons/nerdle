@@ -1,5 +1,5 @@
 import itertools
-from random import choice
+from random import choice, shuffle
 from copy import deepcopy
 
 def guess(numbers,operators,known,pos,options):
@@ -28,7 +28,13 @@ known = ['','','','','','','','']
 pos = [[],[],[],[],[],[],[],[]]
 excluded = [[],[],[],[],[],[],[],[]]
 total_exclude = []
-guess = choice(options)
+best = 0
+guess = ""
+shuffle(options)
+for a in options:
+    if len(set(a)) > best:
+        best = len(set(a))
+        guess = a
 print(guess)
 
 
@@ -50,6 +56,7 @@ while True:
             #print(j,k,l)
             if j.intersection(k) == set() and j.intersection(l) == set():
                 total_exclude.extend(list(j))
+        
     total_exclude = list(set(total_exclude))
     for opt in options:
         flag = True
@@ -57,27 +64,34 @@ while True:
             if b  in opt:
                 flag = False
                 break
-        for y in range(8):
-            for j in range(len(excluded[y])):
-                if opt[y] in excluded[j]:
+        if flag:
+            for y in range(8):
+                for j in range(len(excluded[y])):
+                    if opt[y] in excluded[j]:
+                        flag = False
+                        break
+                if known[y] != '' and known[y] != opt[y]:
+                    #print("Known is wrong: ",opt)
                     flag = False
-                    break
-            if known[y] != '' and known[y] != opt[y]:
-                #print("Known is wrong: ",opt)
-                flag = False
-                pass
-            for z in range(len(pos[y])):
-                if pos[y][z] != '' and pos[y][z] not in opt:
-                    #print("Pos is not in opt: ",opt)
-                    flag = False
-                    break
-            for z in range(len(pos[y])):
-                if pos[y][z] == opt[y]:
-                    #print("NO: ",opt)
-                    flag = False
-                    break
+                    pass
+                for z in range(len(pos[y])):
+                    if pos[y][z] != '' and pos[y][z] not in opt:
+                        #print("Pos is not in opt: ",opt)
+                        flag = False
+                        break
+                for z in range(len(pos[y])):
+                    if pos[y][z] == opt[y]:
+                        #print("NO: ",opt)
+                        flag = False
+                        break
         if flag:
             #print("Possible: ",known,pos,opt)
             guesses.append(opt)
-    guess = choice(guesses)
+    best = 0
+    guess = ""
+    shuffle(guesses)
+    for a in guesses:
+        if len(set(a)) > best:
+            best = len(set(a))
+            guess = a
     print(guess)
