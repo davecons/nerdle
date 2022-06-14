@@ -1,21 +1,6 @@
 import itertools
 from random import choice, shuffle
 from copy import deepcopy
-
-def guess(numbers,operators,known,pos,options):
-    rem_options = deepcopy(options)
-    for x in options:
-        flag = True
-        for y in range(8):
-            if known[y] != x[y]:
-                flag = False
-                break
-            if pos[y] not in x:
-                flag = False
-                break
-        if not flag:
-            rem_options.remove(x)
-    return choice(rem_options)
     
 numbers = ['0','1','2','3','4','5','6','7','8','9']
 operators = ["+","-","*","/"]
