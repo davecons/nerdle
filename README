@@ -1,0 +1,8 @@
+Currently, there is one significant bug and one improvement that I need attention.
+The bug is that if a tile is black but that same character is previously not black,
+the code can hang. For example, if you guess 6*6*1=36 and the first 6 is green
+but the next two are black, the code doesn't play nice with it.
+
+The improvement is that currently the code just guesses a random plausible option
+at every turn. It should guess a random plausible option with the maximum number
+of different characters in it.
